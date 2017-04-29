@@ -1,0 +1,70 @@
+
+.card_horizontal {
+    /* border-bottom: 2px solid #16181f; */
+    /* border-radius: 18px 18px 18px 18px; */
+     transition: background-color 0.5s ease;
+    -moz-border-radius: 18px 18px 18px 18px;
+    /* -webkit-border-radius: 18px 18px 18px 18px; */
+    padding: 10px;
+    
+      
+    background: #f5f5f5;
+        width: 100%;
+        margin: 10px;
+        height: 90px;
+}
+p,a,label,h1,h2,i
+{
+	  transition: background-color 0.5s ease;
+	color:#1b303c !important;
+}
+.content_dis
+{
+	  transition: background-color 0.5s ease;
+	background: #e5e5e5 !important;
+}
+.gn-menu-main
+{
+	  transition: background-color 0.5s ease;
+	background: #f5f5f5 !important;
+}
+.gn-menu-main ul
+{
+	  transition: background-color 0.5s ease;
+	background: #f5f5f5 !important;
+}
+.tabs-style-linemove nav {
+  transition: background-color 0.5s ease;
+    background: #f5f5f5 !important;
+}
+.gn-menu-wrapper {
+	  transition: background-color 0.5s ease;
+    background: #f5f5f5 !important;
+    }
+    
+   .details
+   {
+    transition: background-color 0.5s ease;
+    background: #f5f5f5 !important;
+   }
+   #comments
+   {
+    transition: background-color 0.5s ease;
+    background: #f5f5f5 !important;
+   }
+    .comment
+   {
+    transition: background-color 0.5s ease;
+    border-bottom: 1px solid #e5e5e5;
+   }
+   .topic
+   {
+    transition: background-color 0.5s ease;
+    background: #f5f5f5 !important;
+   }
+    body
+   {
+    transition: background-color 0.5s ease;
+    background: #e5e5e5;
+   }
+   

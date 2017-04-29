@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LolMains</title>
+<meta name="description"
+	content="Card Expansion Effect with SVG clipPath" />
+<meta name="keywords"
+	content="clipPath, svg, effect, layout, expansion, images, grid, polygon" />
+<meta name="author" content="Claudio Calautti for Codrops" />
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="/css/demo.css" />
+<link rel="stylesheet" href="../css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/css/tabs.css" />
+<link rel="stylesheet" type="text/css" href="/css/tabstyles.css" />
+<link rel="stylesheet" type="text/css" href="/css/main.css" />
+<link rel="stylesheet" type="text/css" id="main_style"
+	href="/css/main_gray.css" />
+<link rel="stylesheet" type="text/css" href="/css/component.css" />
+<link rel="stylesheet" type="text/css" href="/css/share.css" />
+<link rel="stylesheet" type="text/css" href="/css/dialog.css" />
+<!-- individual effect -->
+<link rel="stylesheet" type="text/css" href="/css/dialog-sandra.css" />
+<link rel="stylesheet" type="text/css" href="/css/cs-select.css" />
+<link rel="stylesheet" type="text/css" href="/css/cs-skin-slide.css" />
+
+<!--[if IE]>
+	  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+<script>
+	if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+		var root = document.getElementsByTagName('html')[0];
+		root.setAttribute('class', 'ff');
+	};
+</script>
+</head>
+<body class="demo-1">
+	
+
+
+	<div th:fragment="head">
+		<header class="codrops-header">
+
+
+			<h1>
+				Lol<span>Mains</span>
+			</h1>
+			<nav class="top_nav">
+				<ul id="gn-menu" class="gn-menu-main">
+					<li class="gn-trigger"><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+						<nav class="gn-menu-wrapper">
+							<div class="gn-scroller">
+								<ul class="gn-menu">
+
+
+								
+
+								</ul>
+								<ul class="gn-menu bottommenu">
+								<li><form th:action="@{/logout}" method="post">
+										<button style="width: 47%;" type="submit">
+											<i style="float: left; margin-top: 18px;"
+												class="fa fa-sign-out icons" aria-hidden="true"></i>
+											<p>Logout</p>
+										</button>
+									</form></li></ul>
+							</div>
+
+						</nav></li>
+					<li><a href="/">Lol<span>Mains</span></a></li>
+					
+					<li class="last_li" style="float: right;">
+
+						<div sec:authorize="isAuthenticated()">
+							
+							<div>
+								<a style="color: white" data-dialog="meme_dialog" id="meme_b">New
+									MeMe</a>
+							</div>
+						</div>
+					</li>
+
+					<li style="float: right;">
+						<div class="" style="float: right;">
+							<div sec:authorize="isAuthenticated()">
+								<div id="auth" hidden="hidden">true</div>
+
+							</div>
+							<div sec:authorize="isAnonymous()">
+								<div id="auth" hidden="hidden">false</div>
+								<a data-dialog="login_dialog" id="login_b" aria-hidden="true">
+									Login </a>
+							</div>
+						</div>
+					</li>
+				
+
+				</ul>
+			</nav>
+		</header>
+
+
+
+
+
+		<div id="login_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>Login</strong>
+				</h2>
+				<form th:action="@{/login}" method="post" default-target-url="/main"
+					always-use-default-target="true">
+
+
+					<table>
+
+						<tr>
+							<td><label>UserName</label></td>
+							<td><input id="username" name="username" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><label>Password</label></td>
+							<td><input id="password" name="password" type="password"></input></td>
+						</tr>
+
+						<tr>
+							<td><button type="submit">
+									Login
+									<div class="ripples buttonRipples">
+										<span class="ripplesCircle"></span>
+									</div>
+								</button></td>
+						</tr>
+					</table>
+				</form>
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<div id="meme_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>New MeMe</strong>
+				</h2>
+				<form th:action="@{/newmeme}" method="post" th:object="${MeMeForm}">
+
+
+					<table>
+
+						<tr>
+							<td><label>Header</label></td>
+							<td><input id="header" name="header" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><label>File</label></td>
+							<td><input id="file" name="file" type="file"></input></td>
+						</tr>
+<tr>
+							<td><label>Tags</label></td>
+							<td><input id="tags[0]" name="tags[0]" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><button type="submit">
+									Submit
+									<div class="ripples buttonRipples">
+										<span class="ripplesCircle"></span>
+									</div>
+								</button></td>
+						</tr>
+					</table>
+				</form>
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<div id="register_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>Register</strong>
+				</h2>
+				<form role="form" action="#" th:action="@{/newuser}"
+					th:object="${User}" method="post">
+					<table>
+
+						
+
+						<tr>
+							<td><label>UserName</label></td>
+							<td><input type="text" class="form-control"
+								th:field="*{userName}" required="required" /></td>
+						</tr>
+						<tr>
+							<td><label>Password</label></td>
+							<td><input type="text" class="form-control"
+								th:field="*{password}" required="required" /></td>
+						</tr>
+						
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-default">Register</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<script src="/js/gnmenu.js"></script>
+		<script type="text/javascript">
+			new gnMenu(document.getElementById('gn-menu'));
+		</script>
+
+
+
+
+	</div>
+	<div th:fragment="head_main">
+		<header class="codrops-header">
+
+
+			<h1>
+				Lol<span>Mains</span>
+			</h1>
+			<nav class="top_nav">
+				<ul id="gn-menu" class="gn-menu-main">
+					<li class="gn-trigger"><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+						<nav class="gn-menu-wrapper">
+							<div class="gn-scroller">
+								<ul class="gn-menu">
+
+
+								
+
+								</ul>
+								<ul class="gn-menu bottommenu">
+								<li><form th:action="@{/logout}" method="post">
+										<button style="width: 47%;" type="submit">
+											<i style="float: left; margin-top: 18px;"
+												class="fa fa-sign-out icons" aria-hidden="true"></i>
+											<p>Logout</p>
+										</button>
+									</form></li></ul>
+							</div>
+
+						</nav></li>
+					<li><a href="/">Lol<span>Mains</span></a></li>
+					<li><i class="fa fa-search" aria-hidden="true"></i><input class="search_main" type="text" placeholder="Search" /></li>
+					<li class="last_li" style="float: right;">
+
+						<div sec:authorize="isAuthenticated()">
+							
+							<div>
+								<a style="color: white" data-dialog="meme_dialog" id="meme_b">New
+									MeMe</a>
+							</div>
+						</div>
+					</li>
+
+					<li style="float: right;">
+						<div class="" style="float: right;">
+							<div sec:authorize="isAuthenticated()">
+								<div id="auth" hidden="hidden">true</div>
+
+							</div>
+							<div sec:authorize="isAnonymous()">
+								<div id="auth" hidden="hidden">false</div>
+								<a data-dialog="login_dialog" id="login_b" aria-hidden="true">
+									Login </a>
+							</div>
+						</div>
+					</li>
+				
+
+				</ul>
+			</nav>
+		</header>
+
+
+
+
+
+		<div id="login_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>Login</strong>
+				</h2>
+				<form th:action="@{/login}" method="post" default-target-url="/main"
+					always-use-default-target="true">
+
+
+					<table>
+
+						<tr>
+							<td><label>UserName</label></td>
+							<td><input id="username" name="username" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><label>Password</label></td>
+							<td><input id="password" name="password" type="password"></input></td>
+						</tr>
+
+						<tr>
+							<td><button type="submit">
+									Login
+									<div class="ripples buttonRipples">
+										<span class="ripplesCircle"></span>
+									</div>
+								</button></td>
+						</tr>
+					</table>
+				</form>
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<div id="meme_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>New MeMe</strong>
+				</h2>
+				<form th:action="@{/newmeme}" method="post" th:object="${MeMeForm}">
+
+
+					<table>
+
+						<tr>
+							<td><label>Header</label></td>
+							<td><input id="header" name="header" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><label>File</label></td>
+							<td><input id="file" name="file" type="file"></input></td>
+						</tr>
+<tr>
+							<td><label>Tags</label></td>
+							<td><input id="tags[0]" name="tags[0]" type="text"></input></td>
+						</tr>
+						<tr>
+							<td><button type="submit">
+									Submit
+									<div class="ripples buttonRipples">
+										<span class="ripplesCircle"></span>
+									</div>
+								</button></td>
+						</tr>
+					</table>
+				</form>
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<div id="register_dialog" class="dialog">
+			<div class="dialog__overlay"></div>
+			<div class="dialog__content">
+				<h2>
+					<strong>Register</strong>
+				</h2>
+				<form role="form" action="#" th:action="@{/newuser}"
+					th:object="${User}" method="post">
+					<table>
+
+						
+
+						<tr>
+							<td><label>UserName</label></td>
+							<td><input type="text" class="form-control"
+								th:field="*{userName}" required="required" /></td>
+						</tr>
+						<tr>
+							<td><label>Password</label></td>
+							<td><input type="text" class="form-control"
+								th:field="*{password}" required="required" /></td>
+						</tr>
+						
+						<tr>
+							<td>
+								<button type="submit" class="btn btn-default">Register</button>
+							</td>
+						</tr>
+					</table>
+				</form>
+
+				<div>
+					<button class="action" data-dialog-close="data-dialog-close">Close</button>
+				</div>
+			</div>
+		</div>
+		<script src="/js/gnmenu.js"></script>
+		<script type="text/javascript">
+			new gnMenu(document.getElementById('gn-menu'));
+		</script>
+
+
+
+
+	</div>
+
+
+	<script src="/js/classie.js"></script>
+
+	<script src="/js/selectFx.js"></script>
+
+	<script src="/js/jquery-3.1.1.min.js"></script>
+
+
+
+	<script src="/js/modernizr.custom.js"></script>
+	<script src="/js/cbpFWTabs.js"></script>
+	<script src="/js/TweenMax.min.js"></script>
+	<script src="/js/share.js"></script>
+	<script src="/js/gnmenu.js"></script>
+	<script src="/js/dialogFx.js"></script>
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="/js/mainSocket.js"></script>
+	<script src="/js/tooltip.js"></script>
+	<script>
+		new gnMenu(document.getElementById('gn-menu'));
+	</script>
+</body>
+
+</html>
