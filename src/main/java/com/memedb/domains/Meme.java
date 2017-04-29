@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,14 +39,14 @@ public class Meme {
 	@Column(name="path")
 	private String path;
 	@JoinColumn(name = "user_id")
-	@OneToMany(fetch=FetchType.EAGER)
-    public List<User> user;
+	@ManyToOne(fetch=FetchType.EAGER)
+    public User user;
 	@JoinColumn(name = "meme_type_id")
 	@OneToMany(fetch=FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
     public List<MemeType> memeType;
 	@JoinColumn(name = "tag_id")
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
     public List<Tag> tags;
 	

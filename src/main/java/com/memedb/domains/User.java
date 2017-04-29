@@ -41,7 +41,7 @@ public class User {
 	@OneToMany(fetch=FetchType.EAGER)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@Fetch(value = FetchMode.SUBSELECT)
-    public Set<Meme> meme;
+    public List<Meme> meme;
 	
 	
 	

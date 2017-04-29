@@ -41,7 +41,7 @@
 </script>
 </head>
 <body class="demo-1">
-	
+
 
 
 	<div th:fragment="head">
@@ -59,33 +59,46 @@
 								<ul class="gn-menu">
 
 
-								
+
 
 								</ul>
 								<ul class="gn-menu bottommenu">
-								<li><form th:action="@{/logout}" method="post">
-										<button style="width: 47%;" type="submit">
-											<i style="float: left; margin-top: 18px;"
-												class="fa fa-sign-out icons" aria-hidden="true"></i>
-											<p>Logout</p>
-										</button>
-									</form></li></ul>
+									<li><form th:action="@{/logout}" method="post">
+											<button style="width: 47%;" type="submit">
+												<i style="float: left; margin-top: 18px;"
+													class="fa fa-sign-out icons" aria-hidden="true"></i>
+												<p>Logout</p>
+											</button>
+										</form></li>
+								</ul>
 							</div>
 
 						</nav></li>
 					<li><a href="/">Lol<span>Mains</span></a></li>
-					
+
 					<li class="last_li" style="float: right;">
 
 						<div sec:authorize="isAuthenticated()">
-							
+
 							<div>
 								<a style="color: white" data-dialog="meme_dialog" id="meme_b">New
 									MeMe</a>
 							</div>
 						</div>
 					</li>
+					<li style="float: right;">
+						<div class="" style="float: right;">
+							<div sec:authorize="isAuthenticated()">
+								<div id="auth" hidden="hidden">true</div>
 
+							</div>
+							<div sec:authorize="isAnonymous()">
+								<div id="auth" hidden="hidden">false</div>
+								<a data-dialog="register_dialog" id="register_b"
+									aria-hidden="true"> SignUp </a>
+							</div>
+						</div>
+					</li>
 					<li style="float: right;">
 						<div class="" style="float: right;">
 							<div sec:authorize="isAuthenticated()">
@@ -99,7 +112,7 @@
 							</div>
 						</div>
 					</li>
-				
+
 
 				</ul>
 			</nav>
@@ -151,7 +164,8 @@
 				<h2>
 					<strong>New MeMe</strong>
 				</h2>
-				<form th:action="@{/newmeme}" method="post" th:object="${MeMeForm}">
+				<form role="form" action="#" th:action="@{/newmeme}" method="post"
+					enctype="multipart/form-data">
 
 
 					<table>
@@ -162,9 +176,9 @@
 						</tr>
 						<tr>
 							<td><label>File</label></td>
-							<td><input id="file" name="file" type="file"></input></td>
+							<td><input name="file" type="file"></input></td>
 						</tr>
-<tr>
+						<tr>
 							<td><label>Tags</label></td>
 							<td><input id="tags[0]" name="tags[0]" type="text"></input></td>
 						</tr>
@@ -193,7 +207,7 @@
 					th:object="${User}" method="post">
 					<table>
 
-						
+
 
 						<tr>
 							<td><label>UserName</label></td>
@@ -205,7 +219,7 @@
 							<td><input type="text" class="form-control"
 								th:field="*{password}" required="required" /></td>
 						</tr>
-						
+
 						<tr>
 							<td>
 								<button type="submit" class="btn btn-default">Register</button>
@@ -243,26 +257,28 @@
 								<ul class="gn-menu">
 
 
-								
+
 
 								</ul>
 								<ul class="gn-menu bottommenu">
-								<li><form th:action="@{/logout}" method="post">
-										<button style="width: 47%;" type="submit">
-											<i style="float: left; margin-top: 18px;"
-												class="fa fa-sign-out icons" aria-hidden="true"></i>
-											<p>Logout</p>
-										</button>
-									</form></li></ul>
+									<li><form th:action="@{/logout}" method="post">
+											<button style="width: 47%;" type="submit">
+												<i style="float: left; margin-top: 18px;"
+													class="fa fa-sign-out icons" aria-hidden="true"></i>
+												<p>Logout</p>
+											</button>
+										</form></li>
+								</ul>
 							</div>
 
 						</nav></li>
 					<li><a href="/">Lol<span>Mains</span></a></li>
-					<li><i class="fa fa-search" aria-hidden="true"></i><input class="search_main" type="text" placeholder="Search" /></li>
+					<li><i class="fa fa-search" aria-hidden="true"></i><input
+						class="search_main" type="text" placeholder="Search" /></li>
 					<li class="last_li" style="float: right;">
 
 						<div sec:authorize="isAuthenticated()">
-							
+
 							<div>
 								<a style="color: white" data-dialog="meme_dialog" id="meme_b">New
 									MeMe</a>
@@ -283,7 +299,7 @@
 							</div>
 						</div>
 					</li>
-				
+
 
 				</ul>
 			</nav>
@@ -335,7 +351,8 @@
 				<h2>
 					<strong>New MeMe</strong>
 				</h2>
-				<form th:action="@{/newmeme}" method="post" th:object="${MeMeForm}">
+				<form role="form" action="#" th:action="@{/newmeme}" method="post"
+					enctype="multipart/form-data">
 
 
 					<table>
@@ -346,11 +363,11 @@
 						</tr>
 						<tr>
 							<td><label>File</label></td>
-							<td><input id="file" name="file" type="file"></input></td>
+							<td><input name="file" type="file"></input></td>
 						</tr>
-<tr>
+						<tr>
 							<td><label>Tags</label></td>
-							<td><input id="tags[0]" name="tags[0]" type="text"></input></td>
+							<td><input id="tags" name="tags" type="text"></input></td>
 						</tr>
 						<tr>
 							<td><button type="submit">
@@ -377,7 +394,7 @@
 					th:object="${User}" method="post">
 					<table>
 
-						
+
 
 						<tr>
 							<td><label>UserName</label></td>
@@ -389,7 +406,7 @@
 							<td><input type="text" class="form-control"
 								th:field="*{password}" required="required" /></td>
 						</tr>
-						
+
 						<tr>
 							<td>
 								<button type="submit" class="btn btn-default">Register</button>

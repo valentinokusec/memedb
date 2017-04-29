@@ -31,9 +31,9 @@
 	 <div th:include="fragments/header::head_main"></div> 
 	<div id="container" class="container">
 		<div class=" col-md-10 col-md-offset-2 content">
-			<div class="col-md-3 col-md-offset-0">
+			<div th:each="meme	 : ${User.meme}" class="col-md-3 col-md-offset-0">
 				<div class="card">
-					<img alt="" src="img/adc.jpg"/>
+					<img alt="" th:src="'/imageDisplay/' + ${meme.id}"/>
 					<p>name</p>
 					<p>date</p>
 					<p>#dd</p>
