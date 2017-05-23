@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -89,31 +92,53 @@ public class HelloController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		User user = userservice.findByUserName(name);
+		Page<Meme> memes=memeservice.findAllByUser(new PageRequest(0, 10), user);
 		model.addAttribute("User", user);
+		model.addAttribute("Memes", memes);
+		model.addAttribute("Tags", tagservice.findByUser(user));
 		model.addAttribute("MemeForm", new MeMeForm());
 		model.addAttribute("message", "");
 		return "main";
 	}
+	@RequestMapping("/meme/{name}")
+	public String meme(Model model,@PathVariable(value = "name") String namem) {
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		User user = userservice.findByUserName(name);
+		Meme memes=memeservice.findByName(namem);
+		model.addAttribute("User", user);
+		model.addAttribute("meme", memes);
+		model.addAttribute("Tags", tagservice.findByUser(user));
+		model.addAttribute("MemeForm", new MeMeForm());
+		model.addAttribute("message", "");
+		return "meme";
+	}
 	@PostMapping("/newmeme")
-	public String newMeMe(@RequestParam("file") MultipartFile file, @RequestParam("header") String header, @RequestParam("tags") String tagss) {
+	public String newMeMe(@RequestParam("file") MultipartFile file,  MeMeForm MeMeForm) {
 
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		User user = userservice.findByUserName(name);
 		Meme meme = new Meme();
-		meme.setName(header);
+		meme.setName(MeMeForm.getHeader());
 		List<Tag> tagList = new ArrayList<Tag>();
-		List<Meme> memeList = new ArrayList<Meme>();
-	//	for (String tags : tagss) {
+		
+		for (String tags : MeMeForm.getTags()) {
 			Tag tag = new Tag();
-			tag.setName(tagss);
-			tagList.add(tag);
-		//}
+			tag.setName(tags);
 			tagservice.create(tag);
+			tag.setUser(user);
+			tagList.add(tag);
 			
+		}
+			meme.setDate(new Timestamp(System.currentTimeMillis()));
+			meme.setTags(tagList);
 			meme.setPath("D:\\test\\"+file.getOriginalFilename());
 			storageService.store(file);
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String name = auth.getName();
-			User user = userservice.findByUserName(name);
+			
+			List<Meme> memeList = user.getMeme();
 			memeList.add(meme);
 			user.setMeme(memeList);
 			
@@ -126,6 +151,29 @@ public class HelloController {
 	
 		return "redirect:main";
 
+	}
+	@PostMapping("/search")
+	public String searchTag(@RequestParam("tag") String tags, Model model) {
+
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		User user = userservice.findByUserName(name);
+		Tag tag=tagservice.findByName(tags);
+List<Tag> tagList = new ArrayList<Tag>();
+		
+	
+		
+			tagList.add(tag);
+			
+			
+		Page<Meme> memes=memeservice.findAllByTags(new PageRequest(0, 10), tagList);
+		model.addAttribute("User", user);
+		model.addAttribute("Memes", memes);
+		model.addAttribute("Tags", tagservice.findByUser(user));
+		model.addAttribute("MemeForm", new MeMeForm());
+		model.addAttribute("message", "");
+		return "main";
 	}
 	@RequestMapping(value = "/imageDisplay/{id}")
 	  public void showImage(@PathVariable(value = "id") Integer itemId, HttpServletResponse response,HttpServletRequest request) 

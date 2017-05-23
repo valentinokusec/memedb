@@ -246,9 +246,7 @@
 		<header class="codrops-header">
 
 
-			<h1>
-				Lol<span>Mains</span>
-			</h1>
+		
 			<nav class="top_nav">
 				<ul id="gn-menu" class="gn-menu-main">
 					<li class="gn-trigger"><a class="gn-icon gn-icon-menu"><span>Menu</span></a>
@@ -273,8 +271,11 @@
 
 						</nav></li>
 					<li><a href="/">Lol<span>Mains</span></a></li>
-					<li><i class="fa fa-search" aria-hidden="true"></i><input
-						class="search_main" type="text" placeholder="Search" /></li>
+					<li><i class="fa fa-search" aria-hidden="true"></i>
+						<form th:action="@{/search}" method="post"
+							style="position: fixed; top: 0px; left: 210px;">
+							<input class="search_main" type="text" placeholder="Search" />
+						</form></li>
 					<li class="last_li" style="float: right;">
 
 						<div sec:authorize="isAuthenticated()">
@@ -352,7 +353,7 @@
 					<strong>New MeMe</strong>
 				</h2>
 				<form role="form" action="#" th:action="@{/newmeme}" method="post"
-					enctype="multipart/form-data">
+					th:object="${MeMeForm}" enctype="multipart/form-data">
 
 
 					<table>
@@ -367,7 +368,8 @@
 						</tr>
 						<tr>
 							<td><label>Tags</label></td>
-							<td><input id="tags" name="tags" type="text"></input></td>
+							<td class="tag_row">#<input id="tags[0]" name="tags[0]"
+								type="text"></input></td>
 						</tr>
 						<tr>
 							<td><button type="submit">
@@ -448,8 +450,8 @@
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-	<script src="/js/mainSocket.js"></script>
-	<script src="/js/tooltip.js"></script>
+
+
 	<script>
 		new gnMenu(document.getElementById('gn-menu'));
 	</script>

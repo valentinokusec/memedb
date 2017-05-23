@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.memedb.domains.Meme;
+import com.memedb.domains.Tag;
+import com.memedb.domains.User;
 
 
 
@@ -21,6 +23,8 @@ public interface MemeService {
 	public Meme update(Meme Meme);
 	public Meme findByName(String name);
 	public Meme findById(Integer id);
+	Page<Meme> findAllByTags(Pageable pageable,List<Tag> tags);
+	Page<Meme> findAllByUser(Pageable pageable, User user);
 	
 	
 } 

@@ -1,6 +1,6 @@
 package com.memedb.web;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,12 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import com.memedb.domains.Tag;
+import com.memedb.domains.User;
+import com.memedb.forms.HelloMessage;
+import com.memedb.forms.SearchData;
 import com.memedb.services.TagService;
+import com.memedb.services.UserService;
 
 
 
@@ -19,15 +24,21 @@ public class SocketController {
 	@Autowired
 	TagService tagservice;
 
-	
+	@Autowired
+	UserService userservice;
 
-	@MessageMapping("/comment/{id}")
-	@SendTo("/topic/greetings/{id}")
-	public Greeting greeting(@DestinationVariable String id, HelloMessage message) throws Exception {
-
-		
-		return new Greeting(message.getName(), comment.getId(), comment.getReply(), message.getId(), user.getId(),
-				user.getSummoner().getImage(), user.getSummoner().getName(), counter, not.toString());
+	@MessageMapping("/searchtag/{id}")
+	@SendTo("/topic/main/{id}")
+	public HelloMessage greeting(@DestinationVariable String id, SearchData message ) throws Exception {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		String name = auth.getName();
+		User user = userservice.findByUserName("tino");
+		List<String> lists= new ArrayList<String>();
+		List<Tag> list=tagservice.findAllByNameIgnoreCaseContainingAndUser(message.getData(), user);
+		for (int i = 0; i < list.size(); i++) {
+			lists.add(list.get(i).getName());
+		}
+		return new HelloMessage(lists);
 	}
 
 }

@@ -9,7 +9,7 @@ public class MeMeForm {
 	
 	public List<String> tags = new ArrayList<String>();
 	
-	public byte[] file;
+
 
 	
 	
@@ -34,13 +34,7 @@ public class MeMeForm {
 		this.tags = tags;
 	}
 
-	public byte[] getFile() {
-		return file;
-	}
-
-	public void setFile(byte[] file) {
-		this.file = file;
-	}
+	
 	
 	
 

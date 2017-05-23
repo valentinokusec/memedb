@@ -1,533 +1,565 @@
 /**
+ * main.js
+ * http://www.codrops.com
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
  * 
+ * Copyright 2017, Codrops
+ * http://www.codrops.com
  */
+;(function(window) {
 
-/* <![CDATA[ */
-var searchid;
-var load = 0;
-function loadMore() {
-	load = load + 1;
-
-	stompClient.send("/app/loadmore/1", {}, JSON.stringify({
-		'data' : load
-	}));
-
-}
-function getAllData(data, id,type) {
-	console.log(id);
-	 if(type==2)
-	{
-		
-		
-		if (id =="item") {
-			console.log(id);
-			stompClient.send("/app/alldata/1", {}, JSON.stringify({
-				'data' : data
-			}));
-		} else if (id =="summoners") {
-
-			console.log(id);
-			stompClient.send("/app/getsummonersdata/1", {}, JSON.stringify({
-				'data' : data
-			}));
-		}
-			else if (id =="champion") {
-
-				console.log(id);
-				stompClient.send("/app/getchampiondata/1", {}, JSON.stringify({
-					'data' : data
-				}));
-			
-		} else if (id =="masteries") {
-
-			console.log(id);
-			stompClient.send("/app/getrunesdata/1", {}, JSON.stringify({
-				'data' : data
-			}));
-		
-	}else if (id =="runes") {
-
-		console.log(id);
-		stompClient.send("/app/getdisrunesdata/1", {}, JSON.stringify({
-			'data' : data
-		}));
+	/**
+	 * GridLoaderFx obj.
+	 */
+	function GridLoaderFx(el, options) {
+		this.el = el;
+		this.items = this.el.querySelectorAll('.grid__item > .grid__link');
+	}
 	
-}
+	/**
+	 * Effects.
+	 */
+	GridLoaderFx.prototype.effects = {
+		'Hapi': {
+			animeOpts: {
+				duration: function(t,i) {
+					return 600 + i*75;
+				},
+				easing: 'easeOutExpo',
+				delay: function(t,i) {
+					return i*50;
+				},
+				opacity: {
+					value: [0,1],
+					easing: 'linear'
+				},
+				scale: [0,1]	
+			}
+		},
+		'Amun': {
+			// Sort target elements function.
+			sortTargetsFn: function(a,b) {
+				var aBounds = a.getBoundingClientRect(),
+					bBounds = b.getBoundingClientRect();
 
-	}else{
-	if (id == "add_10" || id == 1) {
-		searchid = 1;
-		$(".textarea").attr("id", searchid);
-		stompClient.send("/app/getchampiondata/1", {}, JSON.stringify({
-			'data' : data
-		}));
-	} else {
-		searchid = 0;
-		stompClient.send("/app/alldata/1", {}, JSON.stringify({
-			'data' : data
-		}));
-	}}
-}
+				return (aBounds.left - bBounds.left) || (aBounds.top - bBounds.top);
+			},
+			animeOpts: {
+				duration: function(t,i) {
+					return 500 + i*50;
+				},
+				easing: 'easeOutExpo',
+				delay: function(t,i) {
+					return i * 20;
+				},
+				opacity: {
+					value: [0,1],
+					duration: function(t,i) {
+						return 250 + i*50;
+					},
+					easing: 'linear'
+				},
+				translateY: [400,0]
+			}
+		},
+		'Kek': {
+			sortTargetsFn: function(a,b) {
+				return b.getBoundingClientRect().left - a.getBoundingClientRect().left;
+			},
+			animeOpts: {
+				duration: 800,
+				easing: [0.1,1,0.3,1],
+				delay: function(t,i) {
+					return i * 20;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 600,
+					easing: 'linear'
+				},
+				translateX: [-500,0],
+				rotateZ: [15,0]
+			}
+		},
+		'Isis': {
+			animeOpts: {
+				duration: 900,
+				elasticity: 500,
+				delay: function(t,i) {
+					return i*15;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 300,
+					easing: 'linear'
+				},
+				translateX: function() {
+					return [anime.random(0,1) === 0 ? 100 : -100,0];
+				},
+				translateY: function() {
+					return [anime.random(0,1) === 0 ? 100 : -100,0];
+				}
+			}
+		},
+		'Montu': {
+			perspective: 800,
+			origin: '50% 0%',
+			animeOpts: {
+				duration: 1500,
+				elasticity: 400,
+				delay: function(t,i) {
+					return i*75;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 1000,
+					easing: 'linear'
+				},
+				rotateX: [-90,0]
+			}
+		},
+		'Osiris': {
+			perspective: 3000,
+			animeOpts: {
+				duration: function() {
+					return anime.random(500,1000)
+				},
+				easing: [0.2,1,0.3,1],
+				delay: function(t,i) {
+					return i*50;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 700,
+					easing: 'linear'
+				},
+				translateZ: {
+					value: [-3000,0],
+					duration: 1000
+				},
+				rotateY: ['-1turns',0]
+			}
+		},
+		'Satet': {
+			animeOpts: {
+				duration: 800,
+				elasticity: 600,
+				delay: function(t,i) {
+					return i*100;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 600,
+					easing: 'linear'
+				},
+				scaleX: {
+					value: [0.4,1]
+				},
+				scaleY: {
+					value: [0.6,1],
+					duration: 1000
+				}
+			}
+		},
+		'Atum': {
+			sortTargetsFn: function(a,b) {
+				var docScrolls = {top : document.body.scrollTop + document.documentElement.scrollTop},
+					y1 = window.innerHeight + docScrolls.top,
+					aBounds = a.getBoundingClientRect(),
+					ay1 = aBounds.top + docScrolls.top + aBounds.height/2,
+					bBounds = b.getBoundingClientRect(),
+					by1 = bBounds.top + docScrolls.top + bBounds.height/2;
 
-function sendLike() {
-	$(".reply_text").toggle("fast");
-	console.log($("#main_likes").text());
-	var likes = $("#main_likes").text();
-	var id = $("#video_id").text();
-	console.log(likes);
-	stompClient.send("/app/mainsocket/1", {}, JSON.stringify({
-		'count' : likes,
-		'id' : id
-	}));
-}
+				return Math.abs(y1-ay1) - Math.abs(y1-by1);
+			},
+			perspective: 1000,
+			origin: '50% 0%',
+			animeOpts: {
+				duration: 800,
+				easing: [0.1,1,0.3,1],
+				delay: function(t,i) {
+					return i*35;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 600,
+					easing: 'linear'
+				},
+				translateX: [100,0],
+				translateY: [-100,0],
+				translateZ: [400,0],
+				rotateZ: [10,0],
+				rotateX: [75,0]
+			}
+		},
+		'Ra': {
+			origin: '50% 0%',
+			animeOpts: {
+				duration: 500,
+				easing: 'easeOutBack',
+				delay: function(t,i) {
+					return i * 100;
+				},
+				opacity: {
+					value: [0,1],
+					easing: 'linear'
+				},
+				translateY: [400,0],
+				scaleY: [
+					{value: [3,0.6], delay: function(t,i) {return i * 100 + 120;}, duration: 300, easing: 'easeOutExpo'},
+					{value: [0.6,1], duration: 1400, easing: 'easeOutElastic'}
+				],
+				scaleX: [
+					{value: [0.9,1.05], delay: function(t,i) {return i * 100 + 120;}, duration: 300, easing: 'easeOutExpo'},
+					{value: [1.05,1], duration: 1400, easing: 'easeOutElastic'}
+				]
+			}
+		},
+		'Sobek': {
+			animeOpts: {
+				duration: 600,
+				easing: 'easeOutExpo',
+				delay: function(t,i) {
+					return i*100;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 100,
+					easing: 'linear'
+				},
+				translateX: function(t,i) {
+					var docScrolls = {left : document.body.scrollLeft + document.documentElement.scrollLeft},
+						x1 = window.innerWidth/2 + docScrolls.left,
+						tBounds = t.getBoundingClientRect(),
+						x2 = tBounds.left +docScrolls.left + tBounds.width/2;
 
-var stompClient = null;
-connect();
+					return [x1-x2,0];
+				},
+				translateY: function(t,i) {
+					var docScrolls = {top : document.body.scrollTop + document.documentElement.scrollTop},
+						y1 = window.innerHeight + docScrolls.top,
+						tBounds = t.getBoundingClientRect(),
+						y2 = tBounds.top + docScrolls.top + tBounds.height/2;
 
-function connect() {
-	var socket = new SockJS('/gs-guide-websocket');
-	stompClient = Stomp.over(socket);
-	stompClient.connect({}, function(frame) {
+					return [y1-y2,0];
+				},
+				rotate: function(t,i) {
+					var x1 = window.innerWidth/2,
+						tBounds = t.getBoundingClientRect(),
+						x2 = tBounds.left + tBounds.width/2;
 
-		console.log('Connected: ' + frame);
-		stompClient.subscribe('/topic/main/1', function(greeting) {
-			showGreeting(JSON.parse(greeting.body).content, JSON
-					.parse(greeting.body).id);
-		});
-		stompClient.subscribe('/topic/getall/1', function(greeting) {
-
-			getAll(JSON.parse(greeting.body));
-		});
-		stompClient.subscribe('/topic/loadmore/1', function(greeting) {
-
-			addMore(JSON.parse(greeting.body));
-		});
-	});
-}
-
-function addMore(message, id) {
-
-	console.log(message);
-
-}
-function getAll(message) {
-	
-	if (message[0].type == 0) {
-		$(".items_list").text("");
-		for (i = 0; i < message.length; i++) {
-			console.log("item");
-
-			$(".items_list")
-					.append(
-							"<div>" + "<div class='floating_img'>"
-									+ "	<img id='img_id_"
-									+ message[i].id
-									+ "' class='img_item' src='http://ddragon.leagueoflegends.com/cdn/7.1.1/img/item/"
-									+ message[i].imageId
-									+ "'></img>"
-									+ "	<div class='description_data' id='description_id_"
-									+ message[i].id
-									+ "'>"
-									+ "		<div class='description_text'>"
-									+ message[i].description
-									+ "		</div>"
-
-									+ "		<div class='description_name_text' >"
-									+ message[i].name
-									+ "		</div>"
-									+ "		<div class='description_img' >"
-									+ "http://ddragon.leagueoflegends.com/cdn/7.2.1/img/item/"+message[i].imageId
-									+ "</div>"
-									+ "		<div class='description_id' >"
-									+ message[i].itemId
-									+ "</div>"
-									+ "	</div>"
-									+ "</div>" + "</div>");
+					return [x2 < x1 ? 90 : -90,0];
+				},
+				scale: [0,1]
+			}
+		},
+		'Ptah': {
+			itemOverflowHidden: true,
+			sortTargetsFn: function(a,b) {
+				return b.getBoundingClientRect().left - a.getBoundingClientRect().left;
+			},
+			origin: '100% 0%',
+			animeOpts: {
+				duration: 500,
+				easing: 'easeOutExpo',
+				delay: function(t,i) {
+					return i * 20;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 400,
+					easing: 'linear'
+				},
+				rotateZ: [45,0]
+			}
+		},
+		'Bes': {
+			revealer: true,
+			revealerOrigin: '100% 50%',
+			animeRevealerOpts: {
+				duration: 800,
+				delay: function(t,i) {
+					return i*75;
+				},
+				easing: 'easeInOutQuart',
+				scaleX: [1,0]
+			},
+			animeOpts: {
+				duration: 800,
+				easing: 'easeInOutQuart',
+				delay: function(t,i) {
+					return i*75;
+				},
+				opacity: {
+					value: [0,1],
+					easing: 'linear'
+				},
+				scale: [0.8,1]
+			}
+		},
+		'Seker': {
+			revealer: true,
+			revealerOrigin: '50% 100%',
+			animeRevealerOpts: {
+				duration: 500,
+				delay: function(t,i) {
+					return i*50;
+				},
+				easing: [0.7,0,0.3,1],
+				translateY: [100,0],
+				scaleY: [1,0]
+			},
+			animeOpts: {
+				duration: 500,
+				easing: [0.7,0,0.3,1],
+				delay: function(t,i) {
+					return i*50;
+				},
+				opacity: {
+					value: [0,1],
+					duration: 400,
+					easing: 'linear'
+				},
+				translateY: [100,0],
+				scale: [0.8,1]
+			}
+		},
+		'Nut': {
+			revealer: true,
+			revealerColor: '#1d1d1d',
+			itemOverflowHidden: true,
+			animeRevealerOpts: {
+				easing: 'easeOutCubic',
+				delay: function(t,i) {
+					return i*100;
+				},
+				translateX: [
+					{value: ['101%','0%'], duration: 400 },
+					{value: ['0%','-101%'], duration: 400}
+				]
+			},
+			animeOpts: {
+				duration: 900,
+				easing: 'easeOutCubic',
+				delay: function(t,i) {
+					return 400+i*100;
+				},
+				opacity: {
+					value: 1,
+					duration: 1,
+					easing: 'linear'
+				},
+				scale: [0.8,1]
+			}
+		},
+		'Shu': {
+			lineDrawing: true,
+			animeLineDrawingOpts: {
+				duration: 800,
+				delay: function(t,i) {
+					return i*150;
+				},
+				easing: 'easeInOutSine',
+				strokeDashoffset: [anime.setDashoffset, 0],
+				opacity: [
+					{value: [0,1]},
+					{value: [1,0], duration: 200, easing: 'linear', delay:500}
+				]
+			},
+			animeOpts: {
+				duration: 800,
+				easing: [0.2,1,0.3,1],
+				delay: function(t,i) {
+					return i*150 + 800;
+				},
+				opacity: {
+					value: [0,1],
+					easing: 'linear'
+				},
+				scale: [0.5,1]
+			}
 		}
-	} else if (message[0].type == 1){
-		$(".items_list").text("");
-		for (i = 0; i < message.length; i++) {
-			console.log("champion");
+	};
 
-			$(".items_list")
-					.append(
-							"<div>"
-									+ "<div class='floating_img'>"
-									+ "	<img id='img_id_"
-									+ message[i].id
-									+ "' class='img_item' src='http://ddragon.leagueoflegends.com/cdn/7.2.1/img/champion/"
-									+ message[i].image + "'></img>"
+	GridLoaderFx.prototype._render = function(effect) {
+		// Reset styles.
+		this._resetStyles();
 
-									+ "	<div class='description_data' id='description_id_"
-									+ message[i].id
-									+ "'>"
-									+ "		<div class='description_text'>"
-									+ message[i].description
-									+ "		</div>"
+		var self = this,
+			effectSettings = this.effects[effect],
+			animeOpts = effectSettings.animeOpts
 
-									+ "		<div class='description_name_text' >"
-									+ message[i].name
-									+ "		</div>"
-									+ "		<div class='description_img' >"
-									+ "http://ddragon.leagueoflegends.com/cdn/7.2.1/img/champion/"+message[i].image
-									+ "</div>"
-									+ "		<div class='description_id' >"
-									+ message[i].itemId
-									+ "</div>"
-									+ "	</div>"
-									+ "</div>" + "</div>");
-		}
-	}
-	else if (message[0].type == 2){
-		$(".items_list").text("");
-		for (i = 0; i < message.length; i++) {
-			console.log("summoner");
-
-			$(".items_list")
-					.append(
-							"<div>"
-									+ "<div class='floating_img'>"
-									+ "	<img id='img_id_"
-									+ message[i].id
-									+ "' class='img_item' src='http://ddragon.leagueoflegends.com/cdn/7.2.1/img/spell/"
-									+ message[i].image + "'></img>"
-									+ "	<div class='description_data' id='description_id_"
-									+ message[i].id
-									+ "'>"
-									+ "		<div class='description_text'>"
-									+ message[i].description
-									+ "		</div>"
-
-									+ "		<div class='description_name_text' >"
-									+ message[i].name
-									+ "		</div>"
-									+ "		<div class='description_img' >"
-									+ "http://ddragon.leagueoflegends.com/cdn/7.2.1/img/spell/"+message[i].image
-									+ "</div>"
-									+ "		<div class='description_id' >"
-									+ message[i].summonersid
-									+ "</div>"
-									+ "	</div>"
-									+ "</div>" + "</div>");
-								
-		}
-	}
-	else if (message[0].type == 3){
-		$(".items_list").text("");
-		for (i = 0; i < message.length; i++) {
-			console.log("champion");
-
-			$(".items_list")
-					.append(
-							"<div>"
-									+ "<div class='floating_img'>"
-									+ "	<img id='img_id_"
-									+ message[i].id
-									+ "' class='img_item' src='http://ddragon.leagueoflegends.com/cdn/7.2.1/img/rune/"
-									+ message[i].image + "'></img>"
-
-									+ "	<div class='description_data' id='description_id_"
-									+ message[i].id
-									+ "'>"
-									+ "		<div class='description_text'>"
-									+ message[i].description
-									+ "		</div>"
-
-									+ "		<div class='description_name_text' >"
-									+ message[i].name
-									+ "		</div>"
-									+ "		<div class='description_img' >"
-									+ "http://ddragon.leagueoflegends.com/cdn/7.2.1/img/rune/"+message[i].image
-									+ "</div>"
-									+ "		<div class='description_id' >"
-									+ message[i].itemId
-									+ "</div>"
-									+ "	</div>"
-									+ "</div>" + "</div>");
-		}
-	}
-
-
-	$('.img_item')
-			.hover(
-					function() {
-
-						var contentPanelId = jQuery(this).attr("id");
-						
-						var maindescription = $("#description_id_"
-								+ contentPanelId.replace('img_id_', ''));
-						var description = maindescription.find(
-								'.description_text').text();
-						var description_name = maindescription.find(
-								'.description_name_text').text();
-						description_img = maindescription.find(
-								'.description_img').text();
-						description_id = maindescription
-								.find('.description_id').text();
-						var position=$(this).offset();
-					var left=+position.left-210;
-					var top=+position.top-10;
-					$(".details").css("left", left+"px");
-					$(".details").css("top", top+"px");
-					$(".details").text("");
-					$(".details").append("	<img  class='details_img' src='"+description_img+"'></img>");
-					
-					$(".details").append("<h2 class='name'>"+description_name+"</h2>" );
-					$(".details").append("<h3 class='name'>"+description+"</h3>" );
-							
-							
-					$(".details").append("<div class='data'>" +
-							"<p>Games</p>" +
-//							"<p>Winrate</p>" +
-//							"<p>Points:</p>" +
-							"</div>" );
-															
-					
-					$(".details").show();
-						
-					}	
-					,
-					function () {
-						$(".details").hide();
-			           });
-	$('.img_item').click(
-			function() {
-
-				$(".remove").removeClass("active");
-				if(	typeData==0)
-				 {
-
-					$("#img_" + last_item_id).attr("src", description_img);
-					console.log("#img_"+last_item_id);
-					console.log(".extra_item_"+last_item_id);
-					$(".extra_data_"+last_item_id).attr("value",
-							description_id);
-					
-				 }
-				else 	if(	typeData==1)
-				 {
-
-					$("#img_summoners_" + last_item_id).attr("src", description_img);
-					console.log(description_id);
-					console.log(".extra_data_summoners_"+last_item_id);
-					$(".extra_data_summoners_"+last_item_id).attr("value",
-							description_id);
-					
-				 }
-				else 	if(	typeData==3)
-				 {
-
-					$("#"+textAreaId).append("<img id='"+description_id+"' class='textarea_img tooltip_guide item' src='"+description_img+"'></img>");
-					console.log(description_id);
-					var paramid=textAreaId.replace("text","");
-					var div=$("#"+textAreaId);
-					$("#"+paramid).attr("value",
-							div.html());
-					console.log(div.html());
-					$('.tooltip_guide').hover(		
-							function() {
-								console.log("dd");
-								//var id = jQuery(this).attr("id").replace("dis_id_","");
-								
-								
-								//var idd=+id-1;
-								var idd=0;
-							
-								
-								var position=$(this).offset();
-								var classs=$(this).attr('class');
-								
-								if($(this).hasClass('profile'))
-									{
-								
-									}
-							
-								else if($(this).hasClass('item'))
-								{
-							var left=+position.left-90;
-							var top=+position.top-300;
-							$(".details").css("left", left+"px");
-							$(".details").css("top", top+"px");
-							$(".details").text("");
-							
-									getToolTipData("item",this.id);								
-							
-							$(".details").show();
-								
-								}
-							}
-							,
-							function () {
-								$(".details").hide();
-					           });
-
-					
-				 }
-				else if(typeData==2)
-				{	console.log("#item_add_" + last_item_id);
-					$("#item_add_" + last_item_id).attr("value",
-							description_id);
-					$("#param" + last_item_id).attr("value",
-							description_id);
-					$("#img_add_" + last_item_id).attr("src", description_img);
-					var id = +last_item_id + 1;
-					
-					last_item_id = id;
-				
-					$("#img_add_" + id).addClass("active");
-					
-				 }
-				
-
+		if( effectSettings.perspective != undefined ) {
+			[].slice.call(this.items).forEach(function(item) { 
+				item.parentNode.style.WebkitPerspective = item.parentNode.style.perspective = effectSettings.perspective + 'px';
 			});
-}
-$(".textarea").keyup(function() {
+		}
+		
+		if( effectSettings.origin != undefined ) {
+			[].slice.call(this.items).forEach(function(item) { 
+				item.style.WebkitTransformOrigin = item.style.transformOrigin = effectSettings.origin;
+			});
+		}
 
-	console.log(this.value);
-	getAllData(this.value, searchid);
-});
+		if( effectSettings.lineDrawing != undefined ) {
+			[].slice.call(this.items).forEach(function(item) { 
+				// Create SVG.
+				var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'),
+					path = document.createElementNS('http://www.w3.org/2000/svg', 'path'),
+					itemW = item.offsetWidth,
+					itemH = item.offsetHeight;
 
-$(".card").hover(function() {
-	$(this).children('.hover').slideToggle();
+				svg.setAttribute('width', itemW + 'px');
+				svg.setAttribute('height', itemH + 'px');
+				svg.setAttribute('viewBox', '0 0 ' + itemW + ' ' + itemH);
+				svg.setAttribute('class', 'grid__deco');
+				path.setAttribute('d', 'M0,0 l' + itemW + ',0 0,' + itemH + ' -' + itemW + ',0 0,-' + itemH);
+				path.setAttribute('stroke-dashoffset', anime.setDashoffset(path));
+				svg.appendChild(path);
+				item.parentNode.appendChild(svg);
+			});
 
-});
+			var animeLineDrawingOpts = effectSettings.animeLineDrawingOpts;
+			animeLineDrawingOpts.targets = this.el.querySelectorAll('.grid__deco > path');
+			anime.remove(animeLineDrawingOpts.targets);
+			anime(animeLineDrawingOpts);
+		}
 
-//[].slice.call(document.querySelectorAll('.tabs')).forEach(function(el) {
-//	new CBPFWTabs(el);
-//});
+		if( effectSettings.revealer != undefined ) {
+			[].slice.call(this.items).forEach(function(item) { 
+				var revealer = document.createElement('div');
+				revealer.className = 'grid__reveal';
+				if( effectSettings.revealerOrigin != undefined ) {
+					revealer.style.transformOrigin = effectSettings.revealerOrigin;
+				}
+				if( effectSettings.revealerColor != undefined ) {
+					revealer.style.backgroundColor = effectSettings.revealerColor;
+				}
+				item.parentNode.appendChild(revealer);
+			});
 
-if ($('#auth').text() == "true") {
+			var animeRevealerOpts = effectSettings.animeRevealerOpts;
+			animeRevealerOpts.targets = this.el.querySelectorAll('.grid__reveal');
+			animeRevealerOpts.begin = function(obj) {
+				for(var i = 0, len = obj.animatables.length; i < len; ++i) {
+					obj.animatables[i].target.style.opacity = 1;
+				}
+			};
+			anime.remove(animeRevealerOpts.targets);
+			anime(animeRevealerOpts);
+		}
 
+		if( effectSettings.itemOverflowHidden ) {
+			[].slice.call(this.items).forEach(function(item) {
+				item.parentNode.style.overflow = 'hidden';
+			});
+		}
 
+		animeOpts.targets = effectSettings.sortTargetsFn && typeof effectSettings.sortTargetsFn === 'function' ? [].slice.call(this.items).sort(effectSettings.sortTargetsFn) : this.items;
+		anime.remove(animeOpts.targets);
+		anime(animeOpts);
+	};
 
-	
-} else {
+	GridLoaderFx.prototype._resetStyles = function() {
+		this.el.style.WebkitPerspective = this.el.style.perspective = 'none';
+		[].slice.call(this.items).forEach(function(item) {
+			var gItem = item.parentNode;
+			item.style.opacity = 0;
+			item.style.WebkitTransformOrigin = item.style.transformOrigin = '50% 50%';
+			item.style.transform = 'none';
 
-	
+			var svg = item.parentNode.querySelector('svg.grid__deco');
+			if( svg ) {
+				gItem.removeChild(svg);
+			}
 
-	var logintrigger = document.getElementById("login_b"), logindialog = document
-			.getElementById("login_dialog"), logindlg = new DialogFx(
-			logindialog);
+			var revealer = item.parentNode.querySelector('.grid__reveal');
+			if( revealer ) {
+				gItem.removeChild(revealer);
+			}
 
-	logintrigger.addEventListener('click', logindlg.toggle.bind(logindlg));
-
-	var registertrigger = document.getElementById("register_b"), registerdialog = document
-			.getElementById("register_dialog"), registerdlg = new DialogFx(
-			registerdialog);
-
-	registertrigger.addEventListener('click', registerdlg.toggle
-			.bind(registerdlg));
-
-}
-
-[].slice.call(document.querySelectorAll('select.cs-select')).forEach(
-		function(el) {
-			new SelectFx(el);
+			gItem.style.overflow = '';
 		});
+	};
 
-$('#type').on('change', function() {
-	var id = this.value;
-	if (this.value == 1) {
-		$("#change_topic").animate({
+	window.GridLoaderFx = GridLoaderFx;
 
-			height : "0px"
-		}, 500, function() {
-			// Animation complete.
+	var body = document.body,
+		grids = [].slice.call(document.querySelectorAll('.grid')), masonry = [],
+		currentGrid = 0,
+		// Switch grid radio buttons.
+		switchGridCtrls = [].slice.call(document.querySelectorAll('.control__radio')),
+		// Choose effect buttons.
+		fxCtrls = [].slice.call(document.querySelectorAll('.control--effects > .control__btn')),
+		// The GridLoaderFx instances.
+		loaders = [],
+		loadingTimeout;
+
+	function init() {
+		// Preload images
+		imagesLoaded(body, function() {
+			// Initialize Masonry on each grid.
+			grids.forEach(function(grid) {
+				var m = new Masonry(grid, {
+					itemSelector: '.grid__item',
+					columnWidth: '.grid__sizer',
+					percentPosition: true,
+					transitionDuration: 0
+				});
+				masonry.push(m);
+				// Hide the grid.
+				grid.classList.add('grid--hidden');
+				// Init GridLoaderFx.
+				loaders.push(new GridLoaderFx(grid));
+			});
+
+			// Show current grid.
+			grids[currentGrid].classList.remove('grid--hidden');
+			// Init/Bind events.
+			initEvents();
+			// Remove loading class from body
+			body.classList.remove('loading');
 		});
-	} else {
-		$(".topic_content").fadeOut();
-		$("#change_topic").animate({
-
-			height : "220px"
-		}, 500, function() {
-			$("#topic_type_" + id).fadeIn();
-		});
-
 	}
-})
-var last_item_id;
-var description_img;
-var description_id;
-$('.add_item').click(function() {
-	var id = this.id;
 
-	console.log(id);
-	if ($(".sidebar").css("width") == "0px") {
-		$(".sidebar").animate({
-
-			width : "200px"
-		}, 500, function() {
-			getAllData("", id);
+	function initEvents() {
+		// Switching grids radio buttons.
+		switchGridCtrls.forEach(function(ctrl) {
+			ctrl.addEventListener('click', switchGrid);
 		});
-
-	} else {
-
-		$(".sidebar").animate({
-
-			width : "0px"
-		}, 500, function() {
-			// Animation complete.
+		// Effect selection.
+		fxCtrls.forEach(function(ctrl) {
+			ctrl.addEventListener('click', applyFx);
 		});
 	}
 
-	last_item_id = jQuery(this).attr("id").replace('add_', '');
-	$(".remove").removeClass("active");
-	$("#img_add_" + last_item_id).addClass("active");
+	function switchGrid(ev) {
+		// Hide current grid.
+		grids[currentGrid].classList.add('grid--hidden');
+		// New grid.
+		var grid = grids.filter(function(obj) { return obj.classList.contains(ev.target.value); })[0];
+		// Update currentGrid.
+		currentGrid = grids.indexOf(grid);
+		// Show new grid.
+		grid.classList.remove('grid--hidden');
+		masonry[currentGrid].layout();
+	}
 
-});
+	function applyFx(ev) {
+		// Simulate loading grid to show the effect.
+		clearTimeout(loadingTimeout);
+		grids[currentGrid].classList.add('grid--loading');
 
-var textAreaId;
-$('.add_text').click(function() {
-	var id = this.id.split("_");
-	typeData=3;
-	textAreaId=id[0];
-	
+		loadingTimeout = setTimeout(function() {
+			grids[currentGrid].classList.remove('grid--loading');
 
+			// Apply effect.
+			loaders[currentGrid]._render(ev.target.getAttribute('data-fx'));
+		}, 500);
+	}
 
-	console.log(id[1]);
-		$(".sidebar").animate({
+	init();
 
-			width : "220px"
-		}, 500, function() {
-			
-		});
-		setTimeout(function(){ getAllData("", id[1],2);
-		searchid = id.charAt(0); }, 500);
-});
-
-var content=$(".content_dis").offset().top;
-var scroll=1;
-console.log(content);
-window.addEventListener("scroll", function(event) {
-    var top = this.scrollY;
-    console.log(top);
-    if(top>1)
-    	{
-    	if(scroll==1)
-    	{
-    		scroll=0;
-    	
-    	 $(".img_sect").animate({
-
-    			opacity : "1"
-    		}, 500, function() {
-    			 console.log(top);
-    			 $(".left_sect").animate({
-    				 	right: "+=50px",
-    	    			opacity : "1"
-    	    		});
-    			 $(".right_sect").animate({
- 				 	left: "+=50px",
- 	    			opacity : "1"
- 	    		});
-    			 console.log(top);
-    			 $(".content-wrap").animate({
-    				 	bottom: "+=50px",
-    	    			opacity : "1"
-    	    		});
-    		});
-    	}}
-
-}, false);
-
-/* ]]> */
+})(window);

@@ -1,6 +1,7 @@
 package com.memedb.domains;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +50,8 @@ public class Meme {
 	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
     public List<Tag> tags;
+	@Column(name="date")
+	public Timestamp date;
 	
 	
 	

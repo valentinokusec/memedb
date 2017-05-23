@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.memedb.domains.Tag;
+import com.memedb.domains.User;
 
 
 
@@ -21,6 +22,8 @@ public interface TagService {
 	public Tag update(Tag Tag);
 	public Tag findByName(String name);
 	public Tag findById(Integer id);
+	public List<Tag> findAllByNameIgnoreCaseContainingAndUser(String Tag,User user);
+	public List<Tag> findByUser(User user);
 	
 	
 } 

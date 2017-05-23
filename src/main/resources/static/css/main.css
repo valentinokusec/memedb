@@ -1,3 +1,4 @@
+
 textarea:hover, input:hover, textarea:active, input:active, textarea:focus,
 	input:focus, button:focus, button:active, button:hover, label:focus,
 	.btn:active, .btn.active, .guide_textarea, .guide_textarea_dis {
@@ -338,7 +339,7 @@ select {
 }
 
 h1, h2, p, label, a, td, h3 {
-	color: #5f6f81;
+	color: white;
 	font-weight: bold;
 }
 
@@ -642,6 +643,7 @@ width: 50px !important;
 	width: 50px;
 	margin-bottom: 0px;
 	margin-top: 0px;
+	
 }
 
 .name {
@@ -829,16 +831,29 @@ width: 50px !important;
 	/* border-radius: 18px 18px 18px 18px; */
 	-moz-border-radius: 18px 18px 18px 18px;
 	/* -webkit-border-radius: 18px 18px 18px 18px; */
-	height:300px;
-	width:200px;
+	
+	
 	background: #1b303c !important;
 	
-	margin: 40px;
+	margin: 10px;
+	    margin-top: 0px;
 }
 .card img{
 	width:100%;
+	    height: 70%;
 }
-
+.tag_p{
+	margin:5px;
+}
+.list_tag{
+	background:white;
+	min-height:100px;
+	padding-top: 20px;
+	display:none;
+	position:fixed;
+	    z-index: 10;
+	    top: 60px;
+}
 .td_color_1 {
 	background: #2CC185;
 }
@@ -1396,4 +1411,21 @@ button {
 	display: block !important;
 	font-size: 1em !important;
 	padding: 0px !important;
+}
+.content {
+  /* Prevent vertical gaps */
+  line-height: 0;
+   
+  -webkit-column-count: 4;
+  -webkit-column-gap:   0px;
+  -moz-column-count:    4;
+  -moz-column-gap:      0px;
+  column-count:         4;
+  column-gap:           0px;  
+}
+
+.content img {
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  height: auto !important;
 }

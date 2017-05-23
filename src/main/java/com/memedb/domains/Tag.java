@@ -35,7 +35,11 @@ public class Tag {
 	private String name;
 	@JoinColumn(name = "meme_id")
 	@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+	@JsonIgnore
     public List<Meme> meme;
+	@JoinColumn(name = "user_id")
+	@ManyToOne(fetch=FetchType.EAGER)
+    public User user;
 	
 	
 	

@@ -13,12 +13,12 @@
 <link rel="shortcut icon" href="/img/favicon-16x16.png" />
 <link rel="stylesheet" type="text/css" href="css/normalize.css" />
 <link rel="stylesheet" href="../css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" href="css/demo.css" />
-<link rel="stylesheet" type="text/css" href="/css/component.css" />
-<link rel="stylesheet" type="text/css" href="css/main.css" />
-<link rel="stylesheet" type="text/css" href="css/layout-simple.css" />
-<link rel="stylesheet" type="text/css" href="/css/dialog.css" />
-<link rel="stylesheet" type="text/css" href="/css/set1.css" />
+<link rel="stylesheet" type="text/css" href="../css/demo.css" />
+<link rel="stylesheet" type="text/css" href="../css/component.css" />
+<link rel="stylesheet" type="text/css" href="../css/main.css" />
+<link rel="stylesheet" type="text/css" href="../css/layout-simple.css" />
+<link rel="stylesheet" type="text/css" href="../css/dialog.css" />
+<link rel="stylesheet" type="text/css" href="../css/set1.css" />
 <!-- individual effect -->
 <link rel="stylesheet" type="text/css" href="/css/dialog-sandra.css" />
 <link rel="stylesheet"
@@ -38,35 +38,30 @@
 					required="required" />
 				<button style="width: 19%;" type="submit">
 
-					<p style="color: #5f6f81 !important;"  th:text="'#'+${tag.name}"></p>
+					<p style="color: #5f6f81 !important;" th:text="'#'+${tag.name}"></p>
 				</button>
 			</form>
 		</span>
 
 	</div>
 	<div id="container" class="container">
-		<div class=" col-md-10 col-md-offset-1 content grid">
-			<div th:each="meme	 : ${Memes}" class="">
+		<div class=" col-md-10 col-md-offset-1 ">
+			<div class="col-md-3 col-md-offset-2" >
 			
-			<figure class="effect-zoe card">
+		
 			
-					<img alt="" th:src="'/imageDisplay/' + ${meme.id}" />
-					<!-- <p th:text="${meme.name}"></p>
+					<img alt="" th:src="'/imageDisplay/' + ${meme.id}" style="width: 100%;"/>
+				
+				
+				
+			
+			</div>
+			<div class="col-md-5 col-md-offset-1" >
+			 <p th:text="${meme.name}"></p>
 					<p th:text="${meme.date}"></p>
 					<span th:each="tag : ${meme.tags}">
 						<p class="tag_p" th:text="${tag.name}"></p>
-					</span> -->
-				
-					<figcaption>
-							<h2>Creative <span>Zoe</span></h2>
-						
-								<a class="icon-links" th:href="'/meme/' + ${meme.name}">View</a>
-							
-						
-							<p class="description">Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
-						</figcaption>	
-				
-				</figure>
+					</span> 
 			</div>
 		</div>
 

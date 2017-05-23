@@ -1,5 +1,7 @@
 package com.memedb.services;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.data.domain.Page;
@@ -7,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.memedb.domains.Meme;
+import com.memedb.domains.Tag;
+import com.memedb.domains.User;
 import com.memedb.repository.MemeRepository;
 
 
@@ -46,6 +50,18 @@ public class MemeServiceImpl implements MemeService{
 	public Meme findById(Integer id) {
 		// TODO Auto-generated method stub
 		return memeRepository.findOne(id);
+	}
+
+	@Override
+	public Page<Meme> findAllByTags(Pageable pageable, List<Tag> tags) {
+		// TODO Auto-generated method stub
+		return memeRepository.findAllByTags(pageable, tags);
+	}
+
+	@Override
+	public Page<Meme> findAllByUser(Pageable pageable, User user) {
+		// TODO Auto-generated method stub
+		return memeRepository.findAllByUser(pageable, user);
 	}
 
 	
