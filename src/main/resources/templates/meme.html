@@ -45,7 +45,7 @@
 
 	</div>
 	<div id="container" class="container">
-		<div class=" col-md-10 col-md-offset-1 ">
+		<div class=" col-md-10 col-md-offset-1 grid">
 			<div class="col-md-3 col-md-offset-2" >
 			
 		
@@ -56,8 +56,8 @@
 				
 			
 			</div>
-			<div class="col-md-5 col-md-offset-1" >
-			 <p th:text="${meme.name}"></p>
+			<div class="col-md-5 col-md-offset-1 grid" >
+			 <h2 th:text="${meme.name}"></h2>
 					<p th:text="${meme.date}"></p>
 					<span th:each="tag : ${meme.tags}">
 						<p class="tag_p" th:text="${tag.name}"></p>

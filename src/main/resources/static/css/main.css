@@ -513,7 +513,7 @@ section {
 }
 
 span {
-	color: #ff3d81;
+	
 }
 
 .topic_main_content img {
@@ -835,8 +835,8 @@ width: 50px !important;
 	
 	background: #1b303c !important;
 	
-	margin: 10px;
-	    margin-top: 0px;
+	margin-left: 5px;
+	margin-top: 5px;
 }
 .card img{
 	width:100%;

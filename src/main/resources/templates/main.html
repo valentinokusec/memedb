@@ -46,9 +46,9 @@
 	</div>
 	<div id="container" class="container">
 		<div class=" col-md-10 col-md-offset-1 content grid">
-			<div th:each="meme	 : ${Memes}" class="">
+		
 			
-			<figure class="effect-zoe card">
+			<figure th:each="meme	 : ${Memes}" class="effect-zoe card">
 			
 					<img alt="" th:src="'/imageDisplay/' + ${meme.id}" />
 					<!-- <p th:text="${meme.name}"></p>
@@ -58,16 +58,19 @@
 					</span> -->
 				
 					<figcaption>
-							<h2>Creative <span>Zoe</span></h2>
+							<h2 style="color: #61748a;" th:text=" ${meme.name}">Creative</h2>
 						
 								<a class="icon-links" th:href="'/meme/' + ${meme.name}">View</a>
 							
-						
-							<p class="description">Zoe never had the patience of her sisters. She deliberately punched the bear in his face.</p>
+						<!-- <p class="description">
+							<span th:each="tag : ${meme.tags}">
+							
+						<span class=" "  th:text="${tag.name}"></span>
+					</span></p> -->
 						</figcaption>	
 				
 				</figure>
-			</div>
+			
 		</div>
 
 	</div>
